@@ -1,0 +1,88 @@
+import pandas as pd
+import numpy as np
+
+def read_records():
+    Records2016 = pd.read_csv('Records2016.csv')
+    Records2015 = pd.read_csv('Records2015.csv')
+    Records2014 = pd.read_csv('Records2014.csv')
+    Records2013 = pd.read_csv('Records2013.csv')
+    Records2012 = pd.read_csv('Records2012.csv')
+    Records2011 = pd.read_csv('Records2011.csv')
+    Records2010 = pd.read_csv('Records2010.csv')
+    Records2009 = pd.read_csv('Records2009.csv')
+    Records2008 = pd.read_csv('Records2008.csv')
+    Records2007 = pd.read_csv('Records2007.csv')
+    Records2006 = pd.read_csv('Records2006.csv')
+    Records2005 = pd.read_csv('Records2005.csv')
+    Records2004 = pd.read_csv('Records2004.csv')
+    Records2003 = pd.read_csv('Records2003.csv')
+    Records2002 = pd.read_csv('Records2002.csv')
+    Records2001 = pd.read_csv('Records2001.csv')
+    Records2000 = pd.read_csv('Records2000.csv')
+    Records1999 = pd.read_csv('Records1999.csv')
+    Records1998 = pd.read_csv('Records1998.csv')
+    Records1997 = pd.read_csv('Records1997.csv')
+    Records1996 = pd.read_csv('Records1996.csv')
+    Records1995 = pd.read_csv('Records1995.csv')
+    Records1994 = pd.read_csv('Records1994.csv')
+    Records1993 = pd.read_csv('Records1993.csv')
+    Records1992 = pd.read_csv('Records1992.csv')
+    Records1991 = pd.read_csv('Records1991.csv')
+    frames = [Records2016, Records2015, Records2014, Records2013, Records2012, Records2011, Records2010, Records2009, Records2008, Records2007, Records2006, Records2005,Records2004,Records2003,Records2002,Records2001,Records2000,Records1999,Records1998,Records1997,Records1996,Records1995,Records1994,Records1993,Records1992,Records1991] 
+    master = pd.concat(frames)
+    master = master[['Team', 'OW', 'OL', 'OPCT', 'CW', 'CL', 'CPct', 'PPG', 'OPPG', 'SRS', 'SOS', 'AP Pre', 'AP High', 'AP Post', 'Notes', 'Year', 'Conference', 'OT', 'CT']]
+    return master
+
+def read_recruits():
+    RecruitRanks = pd.read_csv('CondensedRecruiting.csv')
+    return RecruitRanks
+
+def max_len(df0,df1,df2,df3,df4,df5,df6,df7):
+    max_len = 0
+    list_of_lists = [df0,df1,df2,df3,df4,df5,df6,df7]
+    for list in list_of_lists:
+        if len(list) > max_len:
+            max_len = len(list)
+    return max_len
+
+def clean_teams(df0,df1,df2,df3,df4,df5,df6,df7):
+    df0 = pd.DataFrame(df0['Team'])
+    df1 = pd.DataFrame(df1['Team'])
+    df2 = pd.DataFrame(df2['Team'])
+    df3 = pd.DataFrame(df3['Team'])
+    df4 = pd.DataFrame(df4['Team'])
+    df5 = pd.DataFrame(df5['Team'])
+    df6 = pd.DataFrame(df6['Team'])
+    df7 = pd.DataFrame(df7['Team'])
+    clean_list = df0
+    list_of_lists = [df0,df1,df2,df3,df4,df5,df6,df7]
+    for list in list_of_lists:
+        clean_list = pd.merge(clean_list,list,how='inner',on=['Team'])
+    return clean_list
+
+def clean_bama(clean_team,df0,df1,df2):
+    team = df0.loc[df0['Team'] == clean_team]
+    team1 = df1.loc[df1['Team'] == clean_team]
+    team2 = df2.loc[df2['Team'] == clean_team]
+    print team
+    print team1
+    print team2
+    final = pd.DataFrame([team,team1])
+    final = pd.DataFrame([final,team2])
+    return final
+
+#main code
+master = read_records()
+master = master[['Team', 'OW', 'OL', 'OPCT', 'CW', 'CL', 'CPct', 'PPG', 'OPPG', 'SRS', 'SOS', 'AP Pre', 'AP High', 'AP Post', 'Notes', 'Year', 'Conference', 'OT', 'CT']]
+recruits = read_recruits()
+
+#    num = 0
+#    print num
+#    for in range(df0,df1,df2,df3,df4,df5,df6,df7):
+#        currentdf = 'df' + str(num)
+#        print currentdf
+#        print len(currentdf)
+#        if len(currentdf) > max_len:
+#            max_len = len(currentdf)
+#        num += 1
+#Alabama = RecruitRanks.loc[RecruitRanks['Team'] == 'Alabama']
